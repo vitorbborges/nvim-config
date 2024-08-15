@@ -12,7 +12,7 @@ return {
         yaml = { "prettier" },
         markdown = { "prettier" },
         lua = { "stylua" },
-        python = { "ruff_organize_imports", "ruff_format", "autoflake" },
+        python = { "ruff_organize_imports", "ruff_format" },
         bibtex = { "bibtex-tidy" },
         latex = { "latexindent" },
         sql = { "sql-formatter" },
