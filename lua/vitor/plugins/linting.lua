@@ -8,7 +8,6 @@ return {
             python = { "ruff" },
             yaml = { "yamllint" },
             markdown = { "markdownlint" },
-            lua = { "luacheck" },
             json = { "jsonlint" },
             c = { "cpplint" },
             cpp = { "cpplint" },
