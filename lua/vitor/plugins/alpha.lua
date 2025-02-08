@@ -28,7 +28,7 @@ return {
         dashboard.section.buttons.val = {
             dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
             dashboard.button("SPC fr", "🗘  > Recent Files", "<cmd>Telescope oldfiles<cr>"),
-            dashboard.button("SPC ee", "  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
+            dashboard.button("c", "󰒓   > Configure Neovim", "<cmd>cd ~/.config/nvim/ | NvimTreeOpen<CR>"),
             dashboard.button("SPC ff", "󰱼  > Find File", "<cmd>Telescope find_files<CR>"),
             dashboard.button("SPC wr", "󰁯  > Restore Session For Current Directory", "<cmd>SessionRestore<CR>"),
             dashboard.button("SPC fs", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
