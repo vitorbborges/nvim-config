@@ -1,4 +1,5 @@
 return {
+    -- TODO: Make this file config less manual
     {
         "stevearc/conform.nvim",
         branch = "nvim-0.9",

@@ -43,13 +43,54 @@ return {
             extensions = {
                 project = {
                     base_dirs = {
-                        { "~/projects", max_depth = 3 },
-                        { "~/.config", max_depth = 2 },
+                        { "~/Desktop/Projects", max_depth = 10 },
+                        { "~/Desktop/Education", max_depth = 10 },
+                        { "~/Desktop/Programming", max_depth = 10 },
                     },
                     hidden_files = false,
+                    auto_ignore = false,
                     theme = "dropdown",
+                    detection_methods = { "pattern" },
+                    patterns = { ".git" },
+
+                    -- 👇 Add this custom function to control what happens on selection
+                    on_project_selected = function(prompt_bufnr)
+                        -- Get selected entry
+                        local state = require("telescope.actions.state")
+                        local selection = state.get_selected_entry()
+                        local path = selection.path
+
+                        -- Close telescope
+                        require("telescope.actions").close(prompt_bufnr)
+
+                        -- Change Neovim's working directory
+                        vim.cmd("cd " .. vim.fn.fnameescape(path))
+
+                        -- Notify user
+                        vim.notify("Switched to project: " .. vim.fn.fnamemodify(path, ":~"))
+
+                        -- Tell NvimTree to cd into the same directory
+                        if package.loaded["nvim-tree"] then
+                            vim.cmd("NvimTreeClose")
+                            vim.cmd("NvimTreeCd")
+                            -- Optionally reopen it if you auto-closed it
+                            -- vim.cmd("NvimTreeOpen")
+                        end
+                    end,
                 },
             },
+            file_ignore_patterns = {}, -- optional: ignore node_modules, etc.
+            layout_strategy = "horizontal",
+            layout_config = {
+                prompt_position = "top",
+            },
+            winblend = 0,
+            sorting_strategy = "ascending",
+            -- Automatically close after selection
+            attach_mappings = function(_, map)
+                map("i", "<CR>", actions.select_default + actions.center) -- keep this
+                return true
+            end,
         })
 
         telescope.load_extension("fzf")

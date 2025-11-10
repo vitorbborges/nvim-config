@@ -1,4 +1,5 @@
 return {
+    -- TODO: Make this a more modern approach.
     "mfussenegger/nvim-lint",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
