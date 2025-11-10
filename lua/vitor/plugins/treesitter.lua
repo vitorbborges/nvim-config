@@ -42,6 +42,8 @@ return {
                 "matlab",
                 "toml",
                 "xml",
+                "markdown",
+                "markdown_inline",
                 "yaml",
             },
             incremental_selection = {

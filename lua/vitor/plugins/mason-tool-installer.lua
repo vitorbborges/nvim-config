@@ -18,6 +18,9 @@ return {
                 "ruff",
                 "clang-format",
                 "sql-formatter",
+                "jupytext",
+                "markdownlint",
+                "ast-grep",
             },
             -- Optional: Add this to avoid permission issues with /home/vitor/projects
             -- You can set a different root directory if needed
