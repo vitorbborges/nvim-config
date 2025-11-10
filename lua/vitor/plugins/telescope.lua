@@ -1,3 +1,4 @@
+-- ~/.config/nvim/lua/vitor/plugins/telescope.lua
 return {
     "nvim-telescope/telescope.nvim",
     branch = "0.1.x",
@@ -50,32 +51,33 @@ return {
                     hidden_files = false,
                     auto_ignore = false,
                     theme = "dropdown",
+                    order_by = "recent", -- ✅ Sort by most recently used
+                    search_by = "title", -- Search by project name (can also be "path")
                     detection_methods = { "pattern" },
                     patterns = { ".git" },
 
-                    -- 👇 Add this custom function to control what happens on selection
+                    -- ✅ Fixed: Properly handle per-tab project switching
                     on_project_selected = function(prompt_bufnr)
-                        -- Get selected entry
                         local state = require("telescope.actions.state")
                         local selection = state.get_selected_entry()
                         local path = selection.path
 
-                        -- Close telescope
                         require("telescope.actions").close(prompt_bufnr)
 
-                        -- Change Neovim's working directory
-                        vim.cmd("cd " .. vim.fn.fnameescape(path))
+                        -- Create a new tab
+                        vim.cmd("tabnew")
 
-                        -- Notify user
-                        vim.notify("Switched to project: " .. vim.fn.fnamemodify(path, ":~"))
+                        -- Change working directory for this tab (tab-local)
+                        vim.cmd("tcd " .. vim.fn.fnameescape(path))
 
-                        -- Tell NvimTree to cd into the same directory
+                        -- Open NvimTree with the selected path
                         if package.loaded["nvim-tree"] then
-                            vim.cmd("NvimTreeClose")
-                            vim.cmd("NvimTreeCd")
-                            -- Optionally reopen it if you auto-closed it
-                            -- vim.cmd("NvimTreeOpen")
+                            local api = require("nvim-tree.api")
+                            -- Use the API to open tree at the new path
+                            api.tree.open({ path = path })
                         end
+
+                        vim.notify("Opened project in new tab: " .. vim.fn.fnamemodify(path, ":~"), vim.log.levels.INFO)
                     end,
                 },
             },
@@ -88,7 +90,7 @@ return {
             sorting_strategy = "ascending",
             -- Automatically close after selection
             attach_mappings = function(_, map)
-                map("i", "<CR>", actions.select_default + actions.center) -- keep this
+                map("i", "<CR>", actions.select_default + actions.center)
                 return true
             end,
         })
