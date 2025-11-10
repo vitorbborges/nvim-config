@@ -49,7 +49,7 @@ return {
         local keymap = vim.keymap -- for conciseness
 
         keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
-        keymap.set("n", "<leader>ef", ":NvimTreeFocus<CR>", { desc = { "Focus back to file explorer" } })
+        keymap.set("n", "<leader>ef", ":NvimTreeFocus<CR>", { desc = "Focus back to file explorer" })
         keymap.set(
             "n",
             "<leader>et",
