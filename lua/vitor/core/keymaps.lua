@@ -1,3 +1,4 @@
+-- ~/.config/nvim/lua/vitor/core/keymaps.lua
 vim.g.mapleader = " "
 
 local keymap = vim.keymap -- for conciseness
