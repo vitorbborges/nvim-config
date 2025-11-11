@@ -5,6 +5,7 @@ return {
     config = function()
         local alpha = require("alpha")
         local dashboard = require("alpha.themes.dashboard")
+
         -- Set header
         dashboard.section.header.val = {
             "                                   ",
@@ -14,7 +15,7 @@ return {
             "    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       ",
             "          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     ",
             "           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    ",
-            "          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   ",
+            "          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   ",
             "   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  ",
             "  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   ",
             " ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  ",
@@ -23,13 +24,16 @@ return {
             "       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     ",
             "                                   ",
         }
+
         -- Set menu
         dashboard.section.buttons.val = {
-            dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
+            dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
             dashboard.button("SPC fp", "󰱼  > Find Project", "<cmd>Telescope project<CR>"),
+            -- Updated button to call the integrated session-lens picker directly
+            dashboard.button("SPC sl", "󱎫  > Recent Sessions", "<cmd>Telescope session-lens<CR>"),
             dashboard.button("SPC fr", "🗘 > Recent Files", "<cmd>Telescope oldfiles<cr>"),
             dashboard.button("c", "󰒓  > Configure Neovim", "<cmd>cd ~/.config/nvim/ | NvimTreeOpen<CR>"),
-            dashboard.button("q", "  > Quit NVIM", "<cmd>qa<CR>"),
+            dashboard.button("q", "  > Quit NVIM", "<cmd>qa<CR>"),
         }
 
         -- Close alpha buffer after opening a project
@@ -45,8 +49,10 @@ return {
                 end
             end,
         })
+
         -- Send config to alpha
         alpha.setup(dashboard.opts)
+
         -- Disable folding on alpha buffer
         vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
     end,

@@ -51,12 +51,11 @@ return {
                     hidden_files = false,
                     auto_ignore = false,
                     theme = "dropdown",
-                    order_by = "recent", -- ✅ Sort by most recently used
-                    search_by = "title", -- Search by project name (can also be "path")
+                    order_by = "recent",
+                    search_by = "title",
                     detection_methods = { "pattern" },
                     patterns = { ".git" },
 
-                    -- ✅ Fixed: Properly handle per-tab project switching
                     on_project_selected = function(prompt_bufnr)
                         local state = require("telescope.actions.state")
                         local selection = state.get_selected_entry()
@@ -64,31 +63,26 @@ return {
 
                         require("telescope.actions").close(prompt_bufnr)
 
-                        -- Create a new tab
-                        vim.cmd("tabnew")
+                        -- Change directory to project
+                        vim.cmd("cd " .. vim.fn.fnameescape(path))
 
-                        -- Change working directory for this tab (tab-local)
-                        vim.cmd("tcd " .. vim.fn.fnameescape(path))
-
-                        -- Open NvimTree with the selected path
+                        -- Open nvim-tree for the project
                         if package.loaded["nvim-tree"] then
                             local api = require("nvim-tree.api")
-                            -- Use the API to open tree at the new path
                             api.tree.open({ path = path })
                         end
 
-                        vim.notify("Opened project in new tab: " .. vim.fn.fnamemodify(path, ":~"), vim.log.levels.INFO)
+                        vim.notify("Opened project: " .. vim.fn.fnamemodify(path, ":~"), vim.log.levels.INFO)
                     end,
                 },
             },
-            file_ignore_patterns = {}, -- optional: ignore node_modules, etc.
+            file_ignore_patterns = {},
             layout_strategy = "horizontal",
             layout_config = {
                 prompt_position = "top",
             },
             winblend = 0,
             sorting_strategy = "ascending",
-            -- Automatically close after selection
             attach_mappings = function(_, map)
                 map("i", "<CR>", actions.select_default + actions.center)
                 return true

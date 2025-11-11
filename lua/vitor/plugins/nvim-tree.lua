@@ -4,7 +4,7 @@ return {
     dependencies = "nvim-tree/nvim-web-devicons",
     config = function()
         local nvimtree = require("nvim-tree")
-        -- Disable built-in netrw
+
         vim.g.loaded_netrw = 1
         vim.g.loaded_netrwPlugin = 1
 
@@ -21,29 +21,20 @@ return {
                 icons = {
                     glyphs = {
                         folder = {
-                            arrow_closed = "", -- arrow when folder is closed
-                            arrow_open = "", -- arrow when folder is open
+                            arrow_closed = "",
+                            arrow_open = "",
                         },
                     },
                 },
             },
-            actions = {
-                open_file = {
-                    window_picker = {
-                        enable = false,
-                    },
-                    quit_on_open = false,
-                },
-            },
-            -- ✅ CRITICAL: These settings make nvim-tree respect per-tab cwd
-            hijack_directories = {
-                enable = false, -- Don't auto-open tree when changing dir
-            },
-            sync_root_with_cwd = false, -- Don't sync tree root with global cwd changes
-            respect_buf_cwd = false, -- Don't follow buffer changes
+            sync_root_with_cwd = true,
+            respect_buf_cwd = false,
             update_focused_file = {
-                enable = false, -- Don't auto-update tree when opening files
-                update_root = false, -- Don't change tree root
+                enable = true,
+                update_root = false,
+            },
+            hijack_directories = {
+                enable = false,
             },
             filters = {
                 custom = { ".DS_Store" },
@@ -95,117 +86,23 @@ return {
             end,
         })
 
-        -- ✅ Per-tab nvim-tree state tracking
-        local tab_trees = {}
-
-        -- Store tree state when leaving a tab
-        vim.api.nvim_create_autocmd("TabLeave", {
-            callback = function()
-                local current_tab = vim.api.nvim_get_current_tabpage()
-                local tree_visible = vim.fn.bufname():match("NvimTree_") ~= nil
-
-                -- Check if tree is open by looking for NvimTree buffer in any window
-                for _, win in ipairs(vim.api.nvim_tabpage_list_wins(current_tab)) do
-                    local buf = vim.api.nvim_win_get_buf(win)
-                    if vim.bo[buf].filetype == "NvimTree" then
-                        tree_visible = true
-                        break
-                    end
-                end
-
-                tab_trees[current_tab] = {
-                    visible = tree_visible,
-                    cwd = vim.fn.getcwd(-1, current_tab), -- Get tab-local cwd
-                }
-            end,
-        })
-
-        -- Restore tree state when entering a tab
-        vim.api.nvim_create_autocmd("TabEnter", {
-            callback = function()
-                local current_tab = vim.api.nvim_get_current_tabpage()
-                local tree_state = tab_trees[current_tab]
-
-                -- Check if tree is currently visible
-                local tree_visible = false
-                for _, win in ipairs(vim.api.nvim_tabpage_list_wins(current_tab)) do
-                    local buf = vim.api.nvim_win_get_buf(win)
-                    if vim.bo[buf].filetype == "NvimTree" then
-                        tree_visible = true
-                        break
-                    end
-                end
-
-                if tree_state then
-                    -- Get the tab's cwd
-                    local tab_cwd = vim.fn.getcwd(-1, current_tab)
-
-                    -- If tree should be visible but isn't, open it
-                    if tree_state.visible and not tree_visible then
-                        vim.schedule(function()
-                            require("nvim-tree.api").tree.open({ path = tab_cwd })
-                        end)
-                    -- If tree is visible but shouldn't be, close it
-                    elseif not tree_state.visible and tree_visible then
-                        vim.schedule(function()
-                            require("nvim-tree.api").tree.close()
-                        end)
-                    -- If tree is visible and should be, update its root to tab's cwd
-                    elseif tree_visible then
-                        vim.schedule(function()
-                            require("nvim-tree.api").tree.change_root(tab_cwd)
-                        end)
-                    end
-                end
-            end,
-        })
-
-        -- Enhanced keymaps that work with tab-local cwd
+        -- Keymaps for tree management
         local keymap = vim.keymap
 
         keymap.set("n", "<leader>ee", function()
             local api = require("nvim-tree.api")
-            local current_tab = vim.api.nvim_get_current_tabpage()
-            local tab_cwd = vim.fn.getcwd(-1, current_tab)
-
-            -- Check if tree is open
-            local tree_open = false
-            for _, win in ipairs(vim.api.nvim_tabpage_list_wins(current_tab)) do
-                local buf = vim.api.nvim_win_get_buf(win)
-                if vim.bo[buf].filetype == "NvimTree" then
-                    tree_open = true
-                    break
-                end
-            end
-
-            if tree_open then
-                api.tree.close()
-            else
-                api.tree.open({ path = tab_cwd })
-            end
-        end, { desc = "Toggle file explorer (tab-local)" })
+            api.tree.toggle({ find_file = true, focus = true })
+        end, { desc = "Toggle file explorer" })
 
         keymap.set("n", "<leader>ef", function()
             local api = require("nvim-tree.api")
-            local current_tab = vim.api.nvim_get_current_tabpage()
-            local tab_cwd = vim.fn.getcwd(-1, current_tab)
-            api.tree.open({ path = tab_cwd })
+            api.tree.open()
             api.tree.focus()
-        end, { desc = "Focus file explorer (tab-local)" })
-
-        keymap.set("n", "<leader>et", function()
-            local api = require("nvim-tree.api")
-            api.tree.find_file({ open = true, focus = true })
-        end, { desc = "Find current file in explorer" })
-
-        keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" })
+        end, { desc = "Focus file explorer" })
 
         keymap.set("n", "<leader>er", function()
             local api = require("nvim-tree.api")
-            local current_tab = vim.api.nvim_get_current_tabpage()
-            local tab_cwd = vim.fn.getcwd(-1, current_tab)
-            api.tree.change_root(tab_cwd)
             api.tree.reload()
-        end, { desc = "Refresh file explorer (tab-local)" })
+        end, { desc = "Refresh file explorer" })
     end,
 }
