@@ -1,7 +1,8 @@
 -- ~/.config/nvim/lua/vitor/plugins/mason-tool-installer.lua
 return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "mason-org/mason.nvim" },
+    event = "VeryLazy",
     config = function()
         local ok, mti = pcall(require, "mason-tool-installer")
         if not ok then
