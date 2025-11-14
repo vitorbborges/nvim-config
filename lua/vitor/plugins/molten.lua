@@ -33,7 +33,7 @@ return {
 
         vim.keymap.set(
             "n",
-            "<localleader>e",
+            "<localleader>eo",
             ":MoltenEvaluateOperator<CR>",
             { silent = true, desc = "Evaluate operator selection" }
         )

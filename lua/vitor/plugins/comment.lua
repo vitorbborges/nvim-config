@@ -16,5 +16,13 @@ return {
             -- for commenting tsx, jsx, svelte, html files
             pre_hook = ts_context_commentstring.create_pre_hook(),
         })
+
+        local keymap = vim.keymap
+        keymap.set("n", "<leader>c", function()
+            require("Comment.api").toggle.linewise.current()
+        end, { desc = "Toggle comment" })
+        keymap.set("v", "<leader>c", function()
+            require("Comment.api").toggle.linewise(vim.fn.visualmode())
+        end, { desc = "Toggle comment" })
     end,
 }

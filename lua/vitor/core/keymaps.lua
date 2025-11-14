@@ -22,3 +22,15 @@ keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" 
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
+
+-- Keymap: Create a new tmux vertical pane at the bottom of the session
+-- This assumes Neovim is running *inside* a tmux session.
+keymap.set("n", "<leader>tt", function()
+    -- Use tmux to create a new vertical split (-v) with a specific height (-l 20)
+    -- and run the shell inside the current directory of the Neovim buffer.
+    -- The -c flag sets the working directory for the new shell.
+    -- Adjust -l 20 to your preferred initial height percentage if needed.
+    local tmux_cmd = string.format("tmux split-window -v -l 20 -c %s", vim.fn.shellescape(vim.fn.getcwd()))
+    -- Execute the system command to run the tmux command
+    vim.fn.system(tmux_cmd)
+end, { desc = "Create new Tmux vertical pane (20% height) in current dir" })

@@ -27,13 +27,18 @@ return {
 
         -- Set menu
         dashboard.section.buttons.val = {
-            dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
-            dashboard.button("SPC fp", "󰱼  > Find Project", "<cmd>Telescope project<CR>"),
-            -- Updated button to call the integrated session-lens picker directly
-            dashboard.button("SPC sl", "󱎫  > Recent Sessions", "<cmd>Telescope session-lens<CR>"),
-            dashboard.button("SPC fr", "🗘 > Recent Files", "<cmd>Telescope oldfiles<cr>"),
-            dashboard.button("c", "󰒓  > Configure Neovim", "<cmd>cd ~/.config/nvim/ | NvimTreeOpen<CR>"),
-            dashboard.button("q", "  > Quit NVIM", "<cmd>qa<CR>"),
+            -- Icon: 📝 (Pencil - for new file)
+            dashboard.button("e", " 📝 New File", "<cmd>ene<CR>"),
+            -- Icon: 📁 (Open Folder - for find project)
+            dashboard.button("SPC fp", " 📁 Find Project", "<cmd>Telescope project<CR>"),
+            -- Icon: 🔄 (Clockwise Arrows - for recent sessions)
+            dashboard.button("SPC sl", " 🔄 Recent Sessions", "<cmd>Telescope session-lens<CR>"),
+            -- Icon: 📚 (Books - for recent files)
+            dashboard.button("SPC fr", " 📚 Recent Files", "<cmd>Telescope oldfiles<cr>"),
+            -- Icon: ⚙️ (Gear - for configuration)
+            dashboard.button("c", " ⚙️ Configure Neovim", "<cmd>cd ~/.config/nvim/ | NvimTreeOpen<CR>"),
+            -- Icon: 🚪 (Door - for quit)
+            dashboard.button("q", " 🚪 Quit NVIM", "<cmd>qa<CR>"),
         }
 
         -- Close alpha buffer after opening a project
