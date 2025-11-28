@@ -34,3 +34,15 @@ keymap.set("n", "<leader>tt", function()
     -- Execute the system command to run the tmux command
     vim.fn.system(tmux_cmd)
 end, { desc = "Create new Tmux vertical pane (20% height) in current dir" })
+
+-- Toggle markdown rendering
+keymap.set("n", "<leader>mr", function()
+  if vim.bo.filetype == "markdown" then
+    require('render-markdown').toggle()
+  else
+    print("Not a markdown file")
+  end
+end, { desc = "Toggle Markdown Render" })
+
+-- Preview markdown rendering
+keymap.set("n", "<leader>mp", "<cmd>RenderMarkdown preview<CR>", { desc = "Preview Markdown Render" })

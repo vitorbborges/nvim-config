@@ -109,6 +109,7 @@ local function create_daily_note_with_weekday()
             "nvim-telescope/telescope.nvim",
             -- Required for markdown preview and other features
             "nvim-treesitter/nvim-treesitter",
+            "MeanderingProgrammer/render-markdown.nvim",
         },
         opts = obsidian_opts,
         keys = {
