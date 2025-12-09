@@ -43,6 +43,8 @@ return {
                     rust = { "rustfmt" },
                     c = { "clang-format" },
                     cpp = { "clang-format" },
+                    java = { "google-java-format" },
+                    nix = { "alejandra" },
                 },
                 format_on_save = {
                     lsp_fallback = true,
