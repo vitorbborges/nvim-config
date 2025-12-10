@@ -29,17 +29,19 @@ return {
         on_attach = function(bufnr)
             local gs = package.loaded.gitsigns
 
-            local function map(mode, l, r, desc)
-                vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
+            local function map(mode, l, r, opts)
+                opts = opts or {}
+                opts.buffer = bufnr
+                vim.keymap.set(mode, l, r, opts)
             end
 
             -- Navigation
-            map("n", "]h", gs.next_hunk, { desc = "]h - Jump to the next Git hunk (e.g., ]h)" })
-            map("n", "[h", gs.prev_hunk, { desc = "[h - Jump to the previous Git hunk (e.g., [h)" })
+            map("n", "]h", function() gs.next_hunk() end, { desc = "]h - Jump to the next Git hunk (e.g., ]h)" })
+            map("n", "[h", function() gs.prev_hunk() end, { desc = "[h - Jump to the previous Git hunk (e.g., [h)" })
 
             -- Actions
-            map("n", "<leader>hs", gs.stage_hunk, { desc = "<leader>hs - Stage the current Git hunk (e.g., <leader>hs)" })
-            map("n", "<leader>hr", gs.reset_hunk, { desc = "<leader>hr - Reset the current Git hunk (e.g., <leader>hr)" })
+            map("n", "<leader>hs", function() gs.stage_hunk() end, { desc = "<leader>hs - Stage the current Git hunk (e.g., <leader>hs)" })
+            map("n", "<leader>hr", function() gs.reset_hunk() end, { desc = "<leader>hr - Reset the current Git hunk (e.g., <leader>hr)" })
             map("v", "<leader>hs", function()
                 gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
             end, { desc = "<leader>hs - Stage selected lines as a hunk (e.g., v<leader>hs)" })
@@ -47,19 +49,19 @@ return {
                 gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
             end, { desc = "<leader>hr - Reset selected lines in a hunk (e.g., v<leader>hr)" })
 
-            map("n", "<leader>hS", gs.stage_buffer, { desc = "<leader>hS - Stage all changes in the current buffer (e.g., <leader>hS)" })
-            map("n", "<leader>hR", gs.reset_buffer, { desc = "<leader>hR - Reset all changes in the current buffer (e.g., <leader>hR)" })
+            map("n", "<leader>hS", function() gs.stage_buffer() end, { desc = "<leader>hS - Stage all changes in the current buffer (e.g., <leader>hS)" })
+            map("n", "<leader>hR", function() gs.reset_buffer() end, { desc = "<leader>hR - Reset all changes in the current buffer (e.g., <leader>hR)" })
 
-            map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "<leader>hu - Undo the last staged hunk (e.g., <leader>hu)" })
+            map("n", "<leader>hu", function() gs.undo_stage_hunk() end, { desc = "<leader>hu - Undo the last staged hunk (e.g., <leader>hu)" })
 
-            map("n", "<leader>hp", gs.preview_hunk, { desc = "<leader>hp - Preview the changes in the current hunk (e.g., <leader>hp)" })
+            map("n", "<leader>hp", function() gs.preview_hunk() end, { desc = "<leader>hp - Preview the changes in the current hunk (e.g., <leader>hp)" })
 
             map("n", "<leader>hb", function()
                 gs.blame_line({ full = true })
             end, { desc = "<leader>hb - Show Git blame info for the current line (e.g., <leader>hb)" })
-            map("n", "<leader>hB", gs.toggle_current_line_blame, { desc = "<leader>hB - Toggle inline Git blame details (e.g., <leader>hB)" })
+            map("n", "<leader>hB", function() gs.toggle_current_line_blame() end, { desc = "<leader>hB - Toggle inline Git blame details (e.g., <leader>hB)" })
 
-            map("n", "<leader>hd", gs.diffthis, { desc = "<leader>hd - Diff current buffer against HEAD (e.g., <leader>hd)" })
+            map("n", "<leader>hd", function() gs.diffthis() end, { desc = "<leader>hd - Diff current buffer against HEAD (e.g., <leader>hd)" })
             map("n", "<leader>hD", function()
                 gs.diffthis("~")
             end, { desc = "<leader>hD - Diff current buffer against the index (e.g., <leader>hD)" })
