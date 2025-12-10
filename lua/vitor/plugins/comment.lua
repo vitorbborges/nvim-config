@@ -4,6 +4,8 @@ It leverages Treesitter for language-aware commenting for both line and block co
 and works seamlessly with motions and text-objects. It also supports:
 - **Dot Repeat**: After performing a comment action (e.g., `<leader>c`), you can move to another line and press `.` to repeat the exact same commenting action.
 - **Count Prefixes**: When using operator-pending mappings (like `gc`), you can precede the command with a number (e.g., `3gc`) to apply the comment action across multiple lines. For instance, `3gc` would toggle comments for 3 lines, or `gc3j` would toggle comments for the current line and the 3 lines below it.
+
+For more information, see: https://github.com/numToStr/Comment.nvim
 --]]
 return {
     "numToStr/Comment.nvim",
