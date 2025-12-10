@@ -1,4 +1,8 @@
--- ~/.config/nvim/lua/vitor/plugins/alpha.lua
+-- alpha-nvim: A fast and fully programmable greeter for Neovim.
+-- This plugin provides a customizable start screen (greeter) for Neovim.
+-- It's built to be fast and allows for extensive configuration through themes.
+-- The current setup uses the "dashboard" theme to provide quick access to common actions.
+-- For more information, see: https://github.com/goolord/alpha-nvim
 return {
     "goolord/alpha-nvim",
     event = "VimEnter",
