@@ -1,3 +1,9 @@
+-- nvim-autopairs: A plugin for automatically handling pairs of characters.
+-- This plugin automatically inserts the closing pair for brackets, parentheses,
+-- quotes, and other characters. It enhances the coding experience by reducing
+-- manual typing and preventing mismatched pairs. It also integrates with
+-- nvim-cmp for smarter completion behavior.
+-- For more information, see: https://github.com/windwp/nvim-autopairs
 return {
   "windwp/nvim-autopairs",
   event = { "InsertEnter" },
