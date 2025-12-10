@@ -1,4 +1,9 @@
--- ~/.config/nvim/lua/vitor/plugins/auto-session.lua
+-- auto-session: A Neovim plugin for automatic session management.
+-- This plugin automatically saves your session (open buffers, window layout, etc.)
+-- when you quit Neovim and restores it when you start Neovim in the same directory.
+-- It helps you quickly resume your work without manually reopening files.
+-- It also integrates with Telescope to provide a session switcher.
+-- For more information, see: https://github.com/rmagatti/auto-session
 return {
     "rmagatti/auto-session",
     dependencies = {
@@ -54,11 +59,11 @@ return {
         -- Add keymaps
         local keymap = vim.keymap
 
-        keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" })
-        keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for cwd" })
-        keymap.set("n", "<leader>wd", "<cmd>SessionDelete<CR>", { desc = "Delete session for cwd" })
+        keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session for current directory (<cmd>SessionRestore<CR>)" })
+        keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for current directory (<cmd>SessionSave<CR>)" })
+        keymap.set("n", "<leader>wd", "<cmd>SessionDelete<CR>", { desc = "Delete session for current directory (<cmd>SessionDelete<CR>)" })
         -- Use the integrated telescope picker from auto-session
-        keymap.set("n", "<leader>sl", "<cmd>Telescope session-lens<CR>", { desc = "List sessions (Telescope)" })
+        keymap.set("n", "<leader>sl", "<cmd>Telescope session-lens<CR>", { desc = "List and manage sessions (Telescope)" })
 
         -- Expose the function globally for alpha if you still prefer the Lua call,
         -- though the command is now the standard way
